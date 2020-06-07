@@ -13,7 +13,7 @@ Any line beginning with `#` will be ignored.
 
 ## Use
 
-`cvclip -c "Microsoft" -p "Software Engineer"`
+`python cvclip -c "Microsoft" -p "Software Engineer"`
 
 ### Required Parameters
 
@@ -33,6 +33,6 @@ Any line beginning with `#` will be ignored.
 - `-n` or `--new`
     - This will create a new text file based on your template `cover.txt`. The new file will follow this naming
     convention: `$CT_$PT`
-        - **Example usage:** `cvclip -n -c "Github" -p "Markdown Expert"` would create a file named
+        - **Example usage:** `python cvclip -n -c "Github" -p "Markdown Expert"` would create a file named
         `Github_Markdown_Expert`
         - **This will prevent printing to the console unless specified with the `-v` flag.**
