@@ -24,5 +24,13 @@ def strip_comments(strip_text):
     return stripped
 
 
-def replace_titles(position_title, company_title, not_replaced):
-    return False
+def replace_titles(company_title, position_title, not_replaced):
+    stripped = strip_comments(not_replaced)
+    replaced = ""
+
+    replaced_position = stripped.replace("$PT", position_title)
+    replaced_title = replaced_position.replace("$CT", company_title)
+
+    replaced = replaced + replaced_title
+
+    return replaced
