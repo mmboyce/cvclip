@@ -1,4 +1,3 @@
-import pytest
 from cvclip import cvclip
 
 def test_verbose_default():
