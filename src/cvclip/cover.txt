@@ -1,0 +1,27 @@
+# Welcome to CVClip!
+#
+# You do not need to remove these lines that begin with "#", as these are comments!
+# Any line after this block of lines with "#" that begins with "#" won't be ignored though.
+#
+# -----------How To Use-----------
+# This file is your cover letter template!
+# All you have to do is place your usual cover letter,
+# and any time you want to insert the name of the company, write "$CT" without the quotations!
+# Likewise, whenever you want to insert the position's title, write "$PT" without the quotations.
+#
+# $PT - placeholder for position title
+# $CT - placeholder for company title
+#
+# For any further information, refer to the README on the project's github!
+# https://github.com/mmboyce/cvclip#cvclip
+
+To Whom It May Concern,
+
+This is an example of a cover letter. I'd really like to apply to the $PT opening at $CT.
+Please hire me!
+
+Best,
+A Strong Candidate
+
+P.S.
+Hope this helps!

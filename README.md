@@ -9,7 +9,8 @@ the console.
 Simply use the provided `cover.txt` file to write your cover letter. Whenever you feel inclined to type the name of the
 company you're applying to, type `$CT`. Likewise, for the title of the position type `$PT`.
 
-Any line beginning with `#` will be ignored.
+Any block of lines beginning with `#` will be ignored.
+However, once a line is found that doesn't begin with `#`, nothing will be ignored
 
 ## Use
 
@@ -24,12 +25,12 @@ Any line beginning with `#` will be ignored.
     
 ### Optional Flags
 
+- `-v` or `--verbose`
+    - This flag will print the cover letter to the console. **By default this flag is active UNLESS you are using `-b` or 
+    `-n`**
 - `-b` or `--clipboard`
     - This flag means that the resultant cover letter will be put into your clipboard for easy pasting.
         - **This will prevent printing to the console unless specified with the `-v` flag.**
-- `-v` or `--verbose`
-    - This flag will print the cover letter to the console. **This is presumed by default UNLESS you are using `-v` or 
-    `-n`**
 - `-n` or `--new`
     - This will create a new text file based on your template `cover.txt`. The new file will follow this naming
     convention: `$CT_$PT`
