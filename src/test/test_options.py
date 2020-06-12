@@ -1,10 +1,10 @@
 from cvclip import cvclip
 
 def test_verbose_default():
-    return False
+    assert False
 
 def test_clipboard():
-    return False
+    assert False
 
 def test_new():
-    return False
+    assert False
