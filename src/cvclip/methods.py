@@ -16,7 +16,7 @@ def strip_comments(strip_text):
 
     for line in lines:
         if comment_block:
-            if  len(line) > 0 and line[0] == "#":
+            if len(line) > 0 and line[0] == "#":
                 # do nothing :)
                 continue
             else:
