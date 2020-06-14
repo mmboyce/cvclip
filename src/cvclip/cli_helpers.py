@@ -1,4 +1,5 @@
 import os
+import re
 
 import pyperclip
 
@@ -69,7 +70,10 @@ def create_new_file(position, company, conversion):
         :rtype: str
         :return: A string that has been formatted to convert spaces to underscores.
         """
-        # TODO: handle leading, trailing and repeated spaces
+
+        title = title.lstrip()
+        title = title.rstrip()
+        title = re.sub(' +', ' ', title)
         title = title.replace(" ", "_")
 
         return title
