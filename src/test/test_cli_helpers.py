@@ -1,3 +1,12 @@
+"""
+Many of the tests in this file are written such that a boolean "did_it_work" will determine if the test
+failed. This is to make sure that in the instance of a failed test, a reason will be supplied at the
+check that caused it to fail and that any created files will be cleared before the failure is triggered.
+
+If this was not done, a failed test after checking a file would leave the file created for the test
+still in the folder. This would prevent re-runs of tests until the file wsa manually removed.
+"""
+
 import StringIO
 import os
 import sys
@@ -7,14 +16,50 @@ import pyperclip
 
 from cvclip import cli_helpers
 
+# The path to the src folder where cover letters are saved
 src_path = os.path.join(os.path.dirname(__file__), '..', 'cvclip')
 
 
 # TODO: Put setup and tear down functions up here
 
 def mock_input(entry):
+    """
+    This helper will be used as a mock patch side effect to represent user input for overwrite tests.
+    It will print the prompt that the user encounters when overwriting for clarity when viewing test
+    results.
+
+    :type entry: str
+    :param entry: A string representing user input
+    :rtype: str
+    :return: A string simulating user input
+    """
     print "Overwrite file? (Y/N): " + entry
     return entry
+
+
+# These constants are used for repeated statements in the print_except_receive to make sure spelling
+# and formatting is always consistent.
+
+CREATION_OF = "Creation of: "
+FILE_DOES_NOT_EXIST = "File path does not exist"
+
+
+def print_expect_receive(expected, received):
+    """
+    This helper will be used whenever the test has indicated that something failed. It will notify the
+    tester the expected value and what was received in this format
+
+    Expected: {expected}
+    Received: {received}
+
+    :type expected:  str
+    :param expected: A string representing what the expected outcome was
+    :type received: str
+    :param received: A string representing what the received outcome was
+    """
+
+    print "Expected: " + expected
+    print "Received: " + received
 
 
 def test_print_verbose():
@@ -41,8 +86,7 @@ def test_copy_to_clipboard():
     cli_helpers.copy_to_clipboard(to_copy)
     if to_copy != pyperclip.paste():
         print "Text was not copied correctly"
-        print "Expected: " + to_copy
-        print "Received: " + pyperclip.paste()
+        print_expect_receive(to_copy, pyperclip.paste())
         did_it_work = False
 
     # Reset clipboard to its state before the test
@@ -63,8 +107,7 @@ def test_create_new_file():
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
-        print "Expected: Creation of " + test_file_path
-        print "Received: File path does not exist"
+        print_expect_receive(CREATION_OF + test_file_path, FILE_DOES_NOT_EXIST)
         did_it_work = False
 
     os.remove(created_path)
@@ -85,8 +128,7 @@ def test_spaces_to_underscores():
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
-        print "Expected: Creation of " + test_file_path
-        print "Received: Creation of " + created_path
+        print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
         did_it_work = False
 
     os.remove(created_path)
@@ -107,8 +149,7 @@ def test_trailing_position_spaces_to_single_underscore():
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
-        print "Expected: Creation of " + test_file_path
-        print "Received: Creation of " + created_path
+        print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
         did_it_work = False
 
     os.remove(created_path)
@@ -129,8 +170,7 @@ def test_multiple_spaces_between_words_to_single_underscore():
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
-        print "Expected: Creation of " + test_file_path
-        print "Received: Creation of " + created_path
+        print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
         did_it_work = False
 
     os.remove(created_path)
@@ -151,8 +191,7 @@ def test_spaces_at_end_of_company_title_removed():
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
-        print "Expected: Creation of " + test_file_path
-        print "Received: Creation of " + created_path
+        print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
         did_it_work = False
 
     os.remove(created_path)
@@ -173,8 +212,7 @@ def test_multiple_spaces_together_to_single_underscore():
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
-        print "Expected: Creation of " + test_file_path
-        print "Received: Creation of " + created_path
+        print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
         did_it_work = False
 
     os.remove(created_path)
@@ -195,8 +233,7 @@ def test_correct_content():
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
-        print "Expected: Creation of " + test_file_path
-        print "Received: Creation of " + created_path
+        print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
         did_it_work = False
 
     created_file = open(created_path, 'r')
@@ -207,8 +244,7 @@ def test_correct_content():
 
     if 'content' != content and did_it_work:
         print "FILE CONTENTS NOT MATCHING INPUT"
-        print "Expected: 'content'"
-        print "Received: '" + content + "'"
+        print_expect_receive("'content'", "'" + content + "'")
         did_it_work = False
 
     os.remove(created_path)
@@ -236,8 +272,7 @@ def test_overwrite_file():
         created_file.close()
 
         if not os.path.exists(test_file_path):
-            print "Expected: Creation of " + test_file_path
-            print "Received: Creation of " + created_path
+            print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
             did_it_work = False
 
         cli_helpers.create_new_file('job', 'company', 'content2')
@@ -250,8 +285,7 @@ def test_overwrite_file():
 
         if content1 == content2 and did_it_work:
             print "FILE WAS NOT OVERWRITTEN"
-            print "Expected: " + content2
-            print "Received: " + content1
+            print_expect_receive(content2, content1)
             did_it_work = False
 
         os.remove(created_path)
@@ -276,8 +310,7 @@ def test_file_not_overwritten():
         created_file.close()
 
         if not os.path.exists(test_file_path):
-            print "Expected: Creation of " + test_file_path
-            print "Received: Creation of " + created_path
+            print_expect_receive(CREATION_OF + test_file_path, CREATION_OF + created_path)
             did_it_work = False
 
         cli_helpers.create_new_file('job', 'company', 'content2')
