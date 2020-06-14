@@ -15,7 +15,9 @@ def print_verbose(conversion):
     print_verbose will run by default if no options besides the required options are included.
     If a flag such as clipboard or new is used then this will only run if its option is used as well.
 
+    :type conversion: str
     :param conversion: A string representing text to be printed
+    :rtype: str
     :return: A string represented the printed text.
     """
     print conversion
@@ -31,6 +33,7 @@ def copy_to_clipboard(conversion):
 
     copy_to_clipboard will prevent verbose from running unless it is specifically included with user input.
 
+    :type conversion: str
     :param conversion: A string to copy to the clipboard.
     """
     pyperclip.copy(conversion)
@@ -44,9 +47,13 @@ def create_new_file(position, company, conversion):
 
     create_new_file will prevent verbose from running unless it is specifically included with user input.
 
-    :param position: A string representing the title of the position
+    :type company: str
     :param company: A string representing the title of the company
+    :type position: str
+    :param position: A string representing the title of the position
+    :type conversion: str
     :param conversion: A string representing the contents of the cover letter
+    :rtype: str
     :return: A string representing the path to the newly created file
     """
 
@@ -57,7 +64,9 @@ def create_new_file(position, company, conversion):
         It will also remove spaces on the ends of position titles, as well as convert multiple neighboring
         spaces in the titles to single underscores.
 
+        :type title: str
         :param title: A string representing the title of either a company or position
+        :rtype: str
         :return: A string that has been formatted to convert spaces to underscores.
         """
         # TODO: handle leading, trailing and repeated spaces
@@ -70,7 +79,9 @@ def create_new_file(position, company, conversion):
         This helper method will create a new file with the converted contents of the cover letter
         and name it the provided title.
 
-        :param title: A string representing the title of the file
+        :type title: str
+        :param title: A string representing the title of the
+        :rtype: str
         :return: The path to the newly created file
         """
 
