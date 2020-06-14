@@ -71,8 +71,11 @@ def create_new_file(position, company, conversion):
         :return: A string that has been formatted to convert spaces to underscores.
         """
 
+        # Strip leading and trailing spaces
         title = title.lstrip()
         title = title.rstrip()
+
+        # Regex to reduce repeated spaces to a single space
         title = re.sub(' +', ' ', title)
         title = title.replace(" ", "_")
 
