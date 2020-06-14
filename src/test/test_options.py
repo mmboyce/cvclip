@@ -3,7 +3,7 @@ import sys
 import pyperclip
 import os
 import __builtin__
-from mock import patch
+import mock
 from cvclip import cli_helpers
 
 
@@ -161,13 +161,40 @@ def test_multiple_spaces_together_to_single_underscore():
     assert did_it_work
 
 
-@patch.object(__builtin__, 'raw_input')
-def test_overwrite_file(mock_raw_input_value):
-    # TODO: mock raw input to use "y"
-    assert False
+def test_overwrite_file():
+    with mock.patch('__builtin__.raw_input', side_effect=['y']):
+        test_file_path = os.path.join(src_path, "job_company.txt")
+        did_it_work = True
+
+        if os.path.exists(test_file_path):
+            print "FILE SHOULD NOT EXIST YET: " + test_file_path
+            assert False
+
+        created_path = cli_helpers.create_new_file('job', 'company', 'content')
+        print "\ncreated file: " + created_path
+
+        created_file = open(created_path, 'r')
+
+        # check to make sure it says content
+
+        created_file.close()
+
+        if not os.path.exists(test_file_path):
+            did_it_work = False
+
+        cli_helpers.create_new_file('job', 'company', 'content2')
+
+        created_file = open(created_path, 'r')
+
+        # check to make sure it says content2
+
+        created_file.close()
+
+        os.remove(created_path)
+
+        assert did_it_work
 
 
-@patch.object(__builtin__, 'raw_input')
 def test_file_not_overwritten():
     # TODO: mock raw input to use "n"
     assert False
