@@ -24,7 +24,7 @@ def main():
         print str(err)  # will print something like "option -a not recognized"
         sys.exit(2)
 
-    company_title =  "input for -c"  # TODO
+    company_title = "input for -c"  # TODO
     position_title = "input for -p"  # TODO
     converted_cover = methods.replace_titles(company_title, position_title, cover_text)
 
