@@ -1,5 +1,8 @@
-import pyperclip
 import os
+
+import pyperclip
+
+src_path = os.path.dirname(__file__)
 
 
 def print_verbose(conversion):
@@ -18,7 +21,6 @@ def create_new_file(position, company, conversion):
 
     def write_cover_file(title):
         # This makes sure the file is written to the cvclip directory
-        title = os.path.join(os.path.dirname(__file__), title)
 
         new_cover_file = open(title, "w")
         new_cover_file.write(conversion)
@@ -30,18 +32,18 @@ def create_new_file(position, company, conversion):
     company = convert_spaces_to_underscores(company)
 
     file_title = position + "_" + company + ".txt"
-    file_path = ""
+    file_path = os.path.join(src_path, file_title)
 
-    if os.path.exists(file_title):
-        print("WARNING: FILE ALREADY EXISTS")
+    if os.path.exists(file_path):
+        print "WARNING: FILE ALREADY EXISTS"
         response = raw_input("Overwrite file? (Y/N)")
         if response.lower() == "y":
-            os.remove(file_title)
-            file_path = write_cover_file(file_title)
+            os.remove(file_path)
+            file_path = write_cover_file(file_path)
+            print "File overwritten: " + file_title
         else:
             print "Overwrite aborted."
-            file_path = "NO FILE CREATED"
     else:
-        file_path = write_cover_file(file_title)
+        file_path = write_cover_file(file_path)
 
     return file_path
