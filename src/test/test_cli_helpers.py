@@ -169,7 +169,7 @@ def test_multiple_spaces_together_to_single_underscore():
         print "FILE SHOULD NOT EXIST YET: " + test_file_path
         assert False
 
-    created_path = cli_helpers.create_new_file('job', '  company', 'content')
+    created_path = cli_helpers.create_new_file('job', 'company   title', 'content')
     print "\ncreated file: " + created_path
 
     if not os.path.exists(test_file_path):
