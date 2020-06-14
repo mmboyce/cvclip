@@ -162,7 +162,7 @@ def test_spaces_at_end_of_company_title_removed():
 
 
 def test_multiple_spaces_together_to_single_underscore():
-    test_file_path = os.path.join(src_path, "job_company.txt")
+    test_file_path = os.path.join(src_path, "job_company_title.txt")
     did_it_work = True
 
     if os.path.exists(test_file_path):
