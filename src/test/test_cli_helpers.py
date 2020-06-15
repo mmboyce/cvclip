@@ -20,8 +20,6 @@ from cvclip import cli_helpers
 cvclip_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'cvclip')
 
 
-# TODO: Put setup and tear down functions up here
-
 def mock_input(entry):
     """
     This helper will be used as a mock patch side effect to represent user input for overwrite tests.
