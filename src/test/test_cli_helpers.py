@@ -17,7 +17,7 @@ import pyperclip
 from cvclip import cli_helpers
 
 # The path to the src folder where cover letters are saved
-src_path = os.path.join(os.path.dirname(__file__), '..', 'cvclip')
+cvclip_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'cvclip')
 
 
 # TODO: Put setup and tear down functions up here
@@ -62,6 +62,32 @@ def print_expect_receive(expected, received):
     print "Received: " + received
 
 
+def check_if_path_already_exists(file_path):
+    """
+    This helper will be used to check if file paths are already being used.
+    It will immediately assert false in that case.
+    It must be assigned so that it will convert the path to absolute.
+
+    We cannot perform a test if a file is occupying the path needed for the test, and we do not
+    want to assume it is accidentally there.
+
+    If the path does not exist yet, we will return it.
+
+    :type file_path: str
+    :param file_path: A string representing the filename to check
+    :rtype: str
+    :return: A string representing the file path if the path does not exist yet
+    """
+    # This path is unambiguous as to the absolute location of the text file.
+    test_file_path = os.path.join(cvclip_path, file_path)
+
+    if os.path.exists(file_path):
+        print "FILE SHOULD NOT EXIST YET: " + file_path
+        assert False
+
+    return test_file_path
+
+
 def test_print_verbose():
     fake_cover = "This is my cover letter"
     # Capture stdout to test!
@@ -96,12 +122,8 @@ def test_copy_to_clipboard():
 
 
 def test_create_new_file():
-    test_file_path = os.path.join(src_path, "job_company.txt")
+    test_file_path = check_if_path_already_exists('job_company.txt')
     did_it_work = True
-
-    if os.path.exists(test_file_path):
-        print "FILE SHOULD NOT EXIST YET: " + test_file_path
-        assert False
 
     created_path = cli_helpers.create_new_file('job', 'company', 'content')
     print "\ncreated file: " + created_path
@@ -117,12 +139,8 @@ def test_create_new_file():
 
 
 def test_spaces_to_underscores():
-    test_file_path = os.path.join(src_path, "job_title_company_title.txt")
+    test_file_path = check_if_path_already_exists("job_title_company_title.txt")
     did_it_work = True
-
-    if os.path.exists(test_file_path):
-        print "FILE SHOULD NOT EXIST YET: " + test_file_path
-        assert False
 
     created_path = cli_helpers.create_new_file('job title', 'company title', 'content')
     print "\ncreated file: " + created_path
@@ -138,12 +156,8 @@ def test_spaces_to_underscores():
 
 
 def test_trailing_position_spaces_to_single_underscore():
-    test_file_path = os.path.join(src_path, "job_company.txt")
+    test_file_path = check_if_path_already_exists("job_company.txt")
     did_it_work = True
-
-    if os.path.exists(test_file_path):
-        print "FILE SHOULD NOT EXIST YET: " + test_file_path
-        assert False
 
     created_path = cli_helpers.create_new_file('job ', 'company', 'content')
     print "\ncreated file: " + created_path
@@ -159,12 +173,8 @@ def test_trailing_position_spaces_to_single_underscore():
 
 
 def test_multiple_spaces_between_words_to_single_underscore():
-    test_file_path = os.path.join(src_path, "job_company.txt")
+    test_file_path = check_if_path_already_exists("job_company.txt")
     did_it_work = True
-
-    if os.path.exists(test_file_path):
-        print "FILE SHOULD NOT EXIST YET: " + test_file_path
-        assert False
 
     created_path = cli_helpers.create_new_file('job ', ' company', 'content')
     print "\ncreated file: " + created_path
@@ -180,12 +190,8 @@ def test_multiple_spaces_between_words_to_single_underscore():
 
 
 def test_spaces_at_end_of_company_title_removed():
-    test_file_path = os.path.join(src_path, "job_company.txt")
+    test_file_path = check_if_path_already_exists("job_company.txt")
     did_it_work = True
-
-    if os.path.exists(test_file_path):
-        print "FILE SHOULD NOT EXIST YET: " + test_file_path
-        assert False
 
     created_path = cli_helpers.create_new_file('job', 'company ', 'content')
     print "\ncreated file: " + created_path
@@ -201,12 +207,8 @@ def test_spaces_at_end_of_company_title_removed():
 
 
 def test_multiple_spaces_together_to_single_underscore():
-    test_file_path = os.path.join(src_path, "job_company_title.txt")
+    test_file_path = check_if_path_already_exists("job_company_title.txt")
     did_it_work = True
-
-    if os.path.exists(test_file_path):
-        print "FILE SHOULD NOT EXIST YET: " + test_file_path
-        assert False
 
     created_path = cli_helpers.create_new_file('job', 'company   title', 'content')
     print "\ncreated file: " + created_path
@@ -222,12 +224,8 @@ def test_multiple_spaces_together_to_single_underscore():
 
 
 def test_correct_content():
-    test_file_path = os.path.join(src_path, "job_company.txt")
+    test_file_path = check_if_path_already_exists("job_company.txt")
     did_it_work = True
-
-    if os.path.exists(test_file_path):
-        print "FILE SHOULD NOT EXIST YET: " + test_file_path
-        assert False
 
     created_path = cli_helpers.create_new_file('job', 'company', 'content')
     print "\ncreated file: " + created_path
@@ -255,12 +253,8 @@ def test_correct_content():
 
 def test_overwrite_file():
     with mock.patch('__builtin__.raw_input', side_effect=mock_input('y')):
-        test_file_path = os.path.join(src_path, "job_company.txt")
+        test_file_path = check_if_path_already_exists("job_company.txt")
         did_it_work = True
-
-        if os.path.exists(test_file_path):
-            print "FILE SHOULD NOT EXIST YET: " + test_file_path
-            assert False
 
         created_path = cli_helpers.create_new_file('job', 'company', 'content')
         print "\ncreated file: " + created_path
@@ -295,12 +289,8 @@ def test_overwrite_file():
 
 def test_file_not_overwritten():
     with mock.patch('__builtin__.raw_input', side_effect=mock_input('n')):
-        test_file_path = os.path.join(src_path, "job_company.txt")
+        test_file_path = check_if_path_already_exists("job_company.txt")
         did_it_work = True
-
-        if os.path.exists(test_file_path):
-            print "FILE SHOULD NOT EXIST YET: " + test_file_path
-            assert False
 
         created_path = cli_helpers.create_new_file('job', 'company', 'content')
         print "\ncreated file: " + created_path
