@@ -30,7 +30,7 @@ def copy_to_clipboard(conversion):
     This method will copy the converted text to the user's clipboard. This is mostly here for readability
     purposes.
 
-    -c or --clipboard
+    -b or --clipboard
 
     copy_to_clipboard will prevent verbose from running unless it is specifically included with user input.
 
