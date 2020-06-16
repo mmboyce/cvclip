@@ -27,7 +27,7 @@ def strip_comments(strip_text):
         if len(line) == 0:
             stripped = stripped + "\n"
         else:
-            stripped = stripped + line
+            stripped = stripped + line + "\n"
 
     return stripped
 

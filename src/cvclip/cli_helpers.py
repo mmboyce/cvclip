@@ -108,7 +108,7 @@ def create_new_file(position, company, conversion):
 
     if os.path.exists(file_path):
         print "WARNING: FILE ALREADY EXISTS"
-        response = raw_input("Overwrite file? (Y/N)")
+        response = raw_input("Overwrite file? (Y/N)")  # TODO: Solve input error
         if response.lower() == "y":
             os.remove(file_path)
             file_path = write_cover_file(file_path)
