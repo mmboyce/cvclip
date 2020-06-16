@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 
 import pyperclip
 
@@ -108,13 +109,19 @@ def create_new_file(position, company, conversion):
 
     if os.path.exists(file_path):
         print "WARNING: FILE ALREADY EXISTS"
-        response = raw_input("Overwrite file? (Y/N)")  # TODO: Solve input error
+        print "Overwrite file? (Y/N)"
+
+        # Fixes issue with prompt appearing before any information is printed
+        sys.stdout.flush()
+
+        response = raw_input()
+
         if response.lower() == "y":
             os.remove(file_path)
             file_path = write_cover_file(file_path)
-            print "File overwritten: " + file_title
+            print "\nFile overwritten: " + file_title
         else:
-            print "Overwrite aborted."
+            print "\nOverwrite aborted."
     else:
         file_path = write_cover_file(file_path)
 
